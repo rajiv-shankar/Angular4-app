@@ -1,14 +1,21 @@
 // command center of all parts of the app - components, services, modules
-// note: "ng g component components/user" added "user" items automatically to this file
+// see: https://v2.angular.io/docs/ts/latest/guide/appmodule.html
+
 
 // everything must be imported to this file:
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+// manually added:
+import { FormsModule } from "@angular/forms";
 
 import { AppComponent } from './app.component';
+// note: "ng g component components/user" added "user" items automatically to this file
 import { UserComponent } from './components/user/user.component';
 
-// then added to this directive, into different arrays:
+import { DataService } from './services/data.service'
+
+// then added to this decorator (fn that adds metadata to a class) into different arrays:
+// @NgModule decorator identifies AppModule as an Angular module (NgModule) class
 @NgModule({
 
   // components go here:
@@ -19,14 +26,18 @@ import { UserComponent } from './components/user/user.component';
 
   // modules go here:
   imports: [
-    BrowserModule
+    BrowserModule,  // every app needs this to run in a browser
+    FormsModule
   ],
 
   // services go here:
-  providers: [],
+  providers: [DataService],
 
-  // bootstrap main root component ("AppComponent") goes here:
+  // bootstrap main root component goes here:
+  // root component that Angular creates and inserts into the index.html host web page
   bootstrap: [AppComponent]
 })
 
+// finally exported
+// AppModule: root module that you bootstrap to launch the application
 export class AppModule { }
