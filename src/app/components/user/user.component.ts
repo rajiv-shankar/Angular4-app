@@ -22,11 +22,11 @@ export class UserComponent implements OnInit {
   // array of strings:
   hobbies:string[];
   hello:any;
+  posts:Post[]; // 'Post' interface
+  isEdit:boolean = false;
 
   constructor(private dataService:DataService) {
-
-  }) {
-    // console.log("constructor ran")
+    // console.log("constructor ran...")
   }
 
   // lifecycle hook
@@ -39,16 +39,20 @@ export class UserComponent implements OnInit {
       city: "Boston",
       state: "MA"
     }
-    this.hobbies = ["write", "sing", "dance"]
+    this.hobbies = ["write", "sing", "dance"];
+    this.hello = "hello";
+
+    this.dataService.getPosts().subscribe((posts) => {
+      this.posts = posts;
+    });  // return an 'observable' that must be subscribed
   }
 
-  onClick(){
-    // console.log("HELLO")
+  onClick() {
     this.name = "Rajiv";
     // this.hobbies.push("New Hobby")
   }
 
-  addHobby(hobby){
+  addHobby(hobby) {
     this.hobbies.unshift(hobby);
     return false;
   }
@@ -58,15 +62,26 @@ export class UserComponent implements OnInit {
       if (this.hobbies[i] == hobby) {
         this.hobbies.splice(i, 1)
       };
-
     }
   }
 
+  toggleEdit() {
+    this.isEdit = !this.isEdit;  // will switch true <-> false
+  }
+
 }
+
 
 // can even be put in another file
 interface Address{
   street: string,
   city: string,
   state: string
+}
+
+interface Post{
+  id: number,
+  title: string,
+  body: string,
+  userId: number
 }

@@ -1,4 +1,4 @@
-// command center of all parts of the app - components, services, modules
+// command center ("meeting place") of all parts of the app - components, services, modules
 // see: https://v2.angular.io/docs/ts/latest/guide/appmodule.html
 
 
@@ -7,12 +7,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 // manually added:
 import { FormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import { RouterModule, Routes } from "@angular/router";
 
 import { AppComponent } from './app.component';
 // note: "ng g component components/user" added "user" items automatically to this file
 import { UserComponent } from './components/user/user.component';
 
-import { DataService } from './services/data.service'
+import { DataService } from './services/data.service';
+import { AboutComponent } from './components/about/about.component'
+
+const appRoutes: Routes = [
+  {path:'', component:UserComponent},
+  {path:'about', component:AboutComponent}
+];
 
 // then added to this decorator (fn that adds metadata to a class) into different arrays:
 // @NgModule decorator identifies AppModule as an Angular module (NgModule) class
@@ -21,13 +29,16 @@ import { DataService } from './services/data.service'
   // components go here:
   declarations: [
     AppComponent,
-    UserComponent
+    UserComponent,
+    AboutComponent
   ],
 
   // modules go here:
   imports: [
     BrowserModule,  // every app needs this to run in a browser
-    FormsModule
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot(appRoutes)
   ],
 
   // services go here:
